@@ -134,7 +134,7 @@ def predict():
             if url != '':
                 text_result = ['yes' if x == 1 else 'no' for x in result][0]
                 decision_text = f"Is {url} a phishing website? Answer: {text_result}"
-                return jsonify({"output": decision_text})
+                return render_template('DetectPhishing.html', prediction_text=decision_text)
             else:
                 result = pd.DataFrame(result, columns=['Phishing'])
                 result['URL'] = index_list
@@ -145,9 +145,9 @@ def predict():
                 path = "App_Output/output.csv"
                 return send_file(path, as_attachment=True)
         else:
-            return render_template('index.html')
+            return render_template('DetectPhishing.html')
     except Exception as e:
-        return render_template('index.html', prediction_text=str(e))
+        return render_template('DetectPhishing.html', prediction_text=str(e))
 
 
 @app.route("/predict-api", methods=['POST'])
